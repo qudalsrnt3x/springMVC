@@ -9,7 +9,6 @@ import org.zerock.mapper.BoardMapper;
 import java.util.List;
 
 @Service
-@Log4j
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService{
 
