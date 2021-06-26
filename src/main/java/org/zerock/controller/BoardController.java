@@ -41,7 +41,7 @@ public class BoardController {
 
         rttr.addFlashAttribute("result", boardVO.getBno());
 
-        return "/redirect:/board/list";
+        return "redirect:/board/list";
     }
 
     @GetMapping("/get")
