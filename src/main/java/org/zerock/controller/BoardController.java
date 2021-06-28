@@ -31,7 +31,13 @@ public class BoardController {
         log.info("list : " + criteria);
 
         model.addAttribute("list", boardService.getList(criteria));
-        model.addAttribute("pageMaker", new PageDTO(criteria, 123)); // 전체 데이터 수 임의값 123 지정
+        //model.addAttribute("pageMaker", new PageDTO(criteria, 123)); // 전체 데이터 수 임의값 123 지정
+
+        int total = boardService.getTotalCount(criteria);
+
+        log.info("total : " + total);
+
+        model.addAttribute("pageMaker", new PageDTO(criteria, total));
     }
 
     @GetMapping("/register")
