@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
+import org.zerock.domain.PageDTO;
 import org.zerock.service.BoardService;
 
 @Controller
@@ -33,6 +31,7 @@ public class BoardController {
         log.info("list : " + criteria);
 
         model.addAttribute("list", boardService.getList(criteria));
+        model.addAttribute("pageMaker", new PageDTO(criteria, 123)); // 전체 데이터 수 임의값 123 지정
     }
 
     @GetMapping("/register")
@@ -53,29 +52,36 @@ public class BoardController {
     }
 
     @GetMapping({"/get", "/modify"})
-    public void get(@RequestParam("bno") Long bno, Model model) {
+    public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
 
         log.info("/get or modify");
         model.addAttribute("board", boardService.get(bno));
     }
 
     @PostMapping("/modify")
-    public String modify(BoardVO boardVO, RedirectAttributes rttr) {
+    public String modify(BoardVO boardVO, RedirectAttributes rttr, @ModelAttribute("cri") Criteria criteria) {
         log.info("modify : "+boardVO);
 
         if (boardService.modify(boardVO)) {
             rttr.addFlashAttribute("result", "success");
         }
+
+        rttr.addAttribute("pageNum", criteria.getPageNum());
+        rttr.addAttribute("amount", criteria.getAmount());
+
         return "redirect:/board/list";
     }
 
     @PostMapping("/remove")
-    public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
+    public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr, @ModelAttribute("cri") Criteria criteria) {
 
         log.info("remove.. " + bno);
         if (boardService.remove(bno)) {
             rttr.addFlashAttribute("result", "success");
         }
+        rttr.addAttribute("pageNum", criteria.getPageNum());
+        rttr.addAttribute("amount", criteria.getAmount());
+
         return "redirect:/board/list";
     }
 }
