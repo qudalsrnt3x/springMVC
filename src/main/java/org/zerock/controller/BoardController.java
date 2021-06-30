@@ -67,12 +67,7 @@ public class BoardController {
             rttr.addFlashAttribute("result", "success");
         }
 
-        rttr.addAttribute("pageNum", criteria.getPageNum());
-        rttr.addAttribute("amount", criteria.getAmount());
-        rttr.addAttribute("keyword", criteria.getKeyword());
-        rttr.addAttribute("type", criteria.getType());
-
-        return "redirect:/board/list";
+        return "redirect:/board/list" + criteria.getListLink();
     }
 
     @PostMapping("/remove")
@@ -82,11 +77,8 @@ public class BoardController {
         if (boardService.remove(bno)) {
             rttr.addFlashAttribute("result", "success");
         }
-        rttr.addAttribute("pageNum", criteria.getPageNum());
-        rttr.addAttribute("amount", criteria.getAmount());
-        rttr.addAttribute("keyword", criteria.getKeyword());
-        rttr.addAttribute("type", criteria.getType());
 
-        return "redirect:/board/list";
+
+        return "redirect:/board/list" + criteria.getListLink();
     }
 }
