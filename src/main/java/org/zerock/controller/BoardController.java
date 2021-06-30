@@ -69,6 +69,8 @@ public class BoardController {
 
         rttr.addAttribute("pageNum", criteria.getPageNum());
         rttr.addAttribute("amount", criteria.getAmount());
+        rttr.addAttribute("keyword", criteria.getKeyword());
+        rttr.addAttribute("type", criteria.getType());
 
         return "redirect:/board/list";
     }
@@ -82,6 +84,8 @@ public class BoardController {
         }
         rttr.addAttribute("pageNum", criteria.getPageNum());
         rttr.addAttribute("amount", criteria.getAmount());
+        rttr.addAttribute("keyword", criteria.getKeyword());
+        rttr.addAttribute("type", criteria.getType());
 
         return "redirect:/board/list";
     }
